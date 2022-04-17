@@ -4,24 +4,24 @@ import { Form, Label, BtnSubmit, Input } from "./ContactForm.styled";
 
 const ContactForm = ({onSubmit}) => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const onChangeNameInput = (ev) => {
     setName(ev.target.value);
   };
 
   const onChangeNumberInput = (ev) => {
-    setNumber(ev.target.value);
+    setPhone(ev.target.value);
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    onSubmit({ name, number });
+    onSubmit({ name, phone });
     reset();
   };
   const reset = () => {
     setName('')
-    setNumber('')
+    setPhone('')
   };
 
     return (
@@ -43,7 +43,7 @@ const ContactForm = ({onSubmit}) => {
           <Input
             type="tel"
             name="number"
-            value={number}
+            value={phone}
             onChange={onChangeNumberInput}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and             can start with +"

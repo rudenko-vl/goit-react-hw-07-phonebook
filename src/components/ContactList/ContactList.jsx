@@ -1,24 +1,36 @@
 import React from "react";
-import { useDispatch } from 'react-redux';
-import PropTypes from "prop-types";
 import { Item, List, Btn } from "./ContactsList.styled";
-import { deleteItem } from "redux/contactSlice";
+import { useDeleteContactMutation, useGetContactsQuery } from "redux/contactsApi";
 import toast, { Toaster } from 'react-hot-toast';
 
-const ContactsList = ({ contacts } ) => {
-  const dispatch = useDispatch();
+const ContactsList = () => {
+  const {data = [], isLoading} = useGetContactsQuery();
+  const [deleteContact] = useDeleteContactMutation();
+  
+  const handleDeleteContact = async (id) => {
+    await deleteContact(id).unwrap();
+  }
+
+  if (isLoading) return <h1>Loading...</h1>
+  
+  // const filterByName = () => {
+  //   return data.filter((contact) =>
+  //     contact.name.toLowerCase().includes(contactName.toLowerCase())
+  //   );
+  // };
+
   return (
     <List>
-      {contacts.map((contact) => (
+      {data.map((contact) => (
         <Item key={contact.id}>
           <p>
-            {contact.name}: {contact.number}
+            {contact.name}: {contact.phone}
           </p>
           <Btn
             id={contact.id}
             type="button"
             onClick={() => {
-              dispatch(deleteItem(contact.id))
+              handleDeleteContact(contact.id)
               toast.success('Contact deleted');
             }}
           >
@@ -31,8 +43,5 @@ const ContactsList = ({ contacts } ) => {
   );
 };
 
-ContactsList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-};
 
 export default ContactsList;
