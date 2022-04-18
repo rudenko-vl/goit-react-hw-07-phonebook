@@ -29,3 +29,7 @@ export const Btn = styled.button`
     color: black;
   }
 `;
+export const Error = styled.h1`
+margin-top: 20px;
+ color: red;
+`;
