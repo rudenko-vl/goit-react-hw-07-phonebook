@@ -5,7 +5,7 @@ export const List = styled.ul`
 `;
 
 export const Item = styled.li`
-  width: 350px;
+  width: 400px;
   display: flex;
   justify-content: space-between;
   :not(:last-child) {

@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Item, List, Btn, Error } from "./ContactsList.styled";
 import { useDeleteContactMutation, useGetContactsQuery } from "redux/contactsApi";
 import toast, { Toaster } from 'react-hot-toast';
+import { Loader } from "components/Loader/Loader";
 
-const ContactsList = ({filter}) => {
+const ContactsList = ({ filter }) => {
+  const [loading, setLoading] = useState(false);
   const {data = [], isLoading, isError} = useGetContactsQuery(filter);
   const [deleteContact] = useDeleteContactMutation();
-  
   const handleDeleteContact = async (id) => {
+    setLoading(true);
     await deleteContact(id).unwrap();
+    setLoading(false);
   }
-  
-  if (isLoading) return <h1>Loading...</h1>
+  console.log(data.length)
+  if (loading || isLoading) return <Loader/>
   if (isError) return <Error>Sorry, server error!</Error>
+  if (data.length === 0) return <h2>You don't have contacts yet. Add someone 🙂</h2>
   
   return (
     <List>
